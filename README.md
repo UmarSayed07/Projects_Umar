@@ -34,3 +34,7 @@ This repo has my small Python projects:
 2. Run using: `python filename.py`  
 
 More projects coming soon 🚀
+
+---
+## 🧾 License
+This project is licensed under the [MIT License](LICENSE) © 2025 Sayed Umar.
