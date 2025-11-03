@@ -1,3 +1,4 @@
+![Umar’s Python Projects](https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/banner.png)
 # Projects_Umar
 
 This repo has my small Python projects:
