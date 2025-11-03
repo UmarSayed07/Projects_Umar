@@ -1,6 +1,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/UmarSayed07/Projects_Umar)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![License](https://img.shields.io/github/license/UmarSayed07/Projects_Umar)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <p align="center">
   <img src="https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/Showcase.png" alt="Umar’s Python Projects" width="80%">
 </p>
