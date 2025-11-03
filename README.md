@@ -1,4 +1,6 @@
-![Umar’s Python Projects](https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/banner.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/Op.png" alt="Umar’s Python Projects" width="80%">
+</p>
 # Projects_Umar
 
 This repo has my small Python projects:
