@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/Op.png" alt="Umar’s Python Projects" width="80%">
+  <img src="https://raw.githubusercontent.com/UmarSayed07/Projects_Umar/main/Banner.png" alt="Umar’s Python Projects" width="80%">
 </p>
 ## 🧠 About This Repository
 This repository showcases my beginner-to-intermediate Python projects.  
