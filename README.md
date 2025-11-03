@@ -20,7 +20,8 @@ Each project here is a step toward mastering Python for real-world applications.
 This repo has my small Python projects:
 
 - **Calc.py** → does square, cube, and square root  
-- **Game.py** → snake, water, gun game  
+- **Game.py** → snake, water, gun game
+- **Password_strength_checker.py → checks how strong your password is based on length, letters, numbers, and symbols 💪
 
 ---
 
