@@ -19,9 +19,10 @@ Each project here is a step toward mastering Python for real-world applications.
 ## 📂 Projects_Umar
 This repo has my small Python projects:
 
-- **Calc.py** → does square, cube, and square root  
-- **Game.py** → snake, water, gun game
-- **Password_strength_checker.py → checks how strong your password is based on length, letters, numbers, and symbols 💪
+- • Calc.py** → does square, cube, and square root  
+- • Game.py** → snake, water, gun game
+- • Password_strength_checker.py → checks how strong your password is based on length, letters, numbers, and symbols 💪
+- • todo_list.py → my first Python project 📝 lets you add, view, and delete tasks from a simple to-do list
 
 ---
 
