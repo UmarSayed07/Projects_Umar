@@ -6,7 +6,7 @@ if Player.lower() != 'yes':
     quit()  
 
 name_player = input("Enter Your Name: ")
-print("We will ask you 5 questions related to computer,")
+print("We will ask you 5 questions related to basic computer knowledge,")
 print("Let's Start the Game :) ",name_player)
 
 score = 0
