@@ -1,0 +1,39 @@
+import random
+
+highscore = None 
+
+def play_game():
+    global highscore
+    n = random.randint(1, 50)
+    a = -1
+    guesses = 0
+
+    print("I'm thinking of a number between 1 and 50.")
+
+    while a != n:
+        a = int(input("Guess a number: "))
+        guesses += 1
+        if a > n:
+            print("Lower number please")
+        elif a < n:
+            print("Higher number please")
+
+    print(f"You have guessed the number {n} correctly in {guesses} attempts!")
+
+
+    if highscore is None or guesses < highscore:
+        highscore = guesses
+        print("New highscore for this session!")
+    else:
+        print(f"Highscore for this session is still {highscore} attempts.")
+
+def main():
+    while True:
+        play_game()
+        again = input("Play again? (y/n): ").lower()
+        if again != 'y':
+            print("Thanks for playing!")
+            break
+
+if __name__ == "__main__":
+    main()
