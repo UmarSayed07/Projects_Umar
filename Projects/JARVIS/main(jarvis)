@@ -4,6 +4,7 @@ import webbrowser
 import wikipedia
 import datetime
 import re
+import pyjokes
 
 WAKE = "jarvis"
 
@@ -33,13 +34,6 @@ def get_time():
     return datetime.datetime.now().strftime("%I:%M %p")
 
 def try_math_compute(text):
-    """
-    Try to find a simple math expression in text and compute it.
-    Supports +, -, *, /, maybe parentheses.
-    Returns result as string or None if parsing fails.
-    """
-    # Remove words like 'calculate', 'what is', etc.
-    # Keep only the math expression part
     expr = text
     expr = re.sub(r'what is ', '', expr)
     expr = re.sub(r'calculate ', '', expr)
@@ -47,24 +41,27 @@ def try_math_compute(text):
     expr = expr.replace('times', '*').replace('multiplied by', '*')
     expr = expr.replace('x', '*')
     expr = expr.replace('divide by', '/').replace('divided by', '/')
-    # optionally: convert words to digits — but for now assume numeric digits
-    # Remove any invalid characters (allow digits, +-*/(). and spaces)
     expr = re.sub(r'[^0-9\+\-\*\/\.\(\) ]', '', expr)
     try:
-        result = eval(expr)   # ⚠️ using eval; for simple local use it's okay
+        result = eval(expr)
         return str(result)
-    except Exception as e:
+    except Exception:
         return None
 
 def respond(query):
     query = query.lower().strip()
-    # Math handling
+
+    # jokes
+    if 'joke' in query:
+        joke = pyjokes.get_joke()
+        speak(joke)
+        return
+
     result = try_math_compute(query)
     if result is not None:
         speak("The result is " + result)
         return
 
-    # Other commands
     if 'time' in query:
         speak("The time is " + get_time())
     elif query.startswith('who is') or query.startswith('what is'):
@@ -78,23 +75,13 @@ def respond(query):
         speak("Opening YouTube")
         webbrowser.open("https://www.youtube.com")
     elif 'open google' in query:
-        speak("Opening google")
+        speak("Opening Google")
         webbrowser.open("https://www.google.com")
-    elif 'open chrome' in query:
-        speak("Opening chrome")
-        webbrowser.open("https://www.chrome.com")
-    elif 'open youtube' in query:
-        speak("Opening instagram")
-        webbrowser.open("https://www.instagram.com")
-
-    elif query.strip() == "":
-        pass
-    
     else:
         speak("You said: " + query)
 
 if __name__ == "__main__":
-    speak("Jarvis at your service. Say 'jarvis' to wake me up.")
+    speak("Initializing Jarvis, Say...Jarvis")
     while True:
         text = listen()
         if WAKE in text:
