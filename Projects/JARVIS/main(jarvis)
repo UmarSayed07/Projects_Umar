@@ -1,117 +1,107 @@
 import speech_recognition as sr
-import webbrowser
 import pyttsx3
-import musicLibrary
-import requests
-from openai import OpenAI
-from gtts import gTTS
-import pygame
-import os
+import webbrowser
+import wikipedia
+import datetime
+import re
 
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-newsapi = os.getenv("OPENAI_API_KEY")
+WAKE = "jarvis"
 
-def speak_old(text):
+def speak(text):
+    print("Assistant:", text)
+    engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
 
-def speak(text):
-    tts = gTTS(text)
-    tts.save('temp.mp3')
+def listen():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.adjust_for_ambient_noise(source, duration=0.5)
+        audio = r.listen(source, phrase_time_limit=5)
+    try:
+        text = r.recognize_google(audio).lower()
+        print("You said:", text)
+        return text
+    except sr.UnknownValueError:
+        return ""
+    except sr.RequestError:
+        speak("Sorry, I am unable to reach speech service.")
+        return ""
 
-# initialize mixer
-pygame.mixer.init()
+def get_time():
+    return datetime.datetime.now().strftime("%I:%M %p")
 
-# load the MP3 file (in the same folder, or give full path)
-pygame.mixer.music.load("temp.mp3")
+def try_math_compute(text):
+    """
+    Try to find a simple math expression in text and compute it.
+    Supports +, -, *, /, maybe parentheses.
+    Returns result as string or None if parsing fails.
+    """
+    # Remove words like 'calculate', 'what is', etc.
+    # Keep only the math expression part
+    expr = text
+    expr = re.sub(r'what is ', '', expr)
+    expr = re.sub(r'calculate ', '', expr)
+    expr = expr.replace('plus', '+').replace('minus', '-')
+    expr = expr.replace('times', '*').replace('multiplied by', '*')
+    expr = expr.replace('x', '*')
+    expr = expr.replace('divide by', '/').replace('divided by', '/')
+    # optionally: convert words to digits — but for now assume numeric digits
+    # Remove any invalid characters (allow digits, +-*/(). and spaces)
+    expr = re.sub(r'[^0-9\+\-\*\/\.\(\) ]', '', expr)
+    try:
+        result = eval(expr)   # ⚠️ using eval; for simple local use it's okay
+        return str(result)
+    except Exception as e:
+        return None
 
-# start playback
-pygame.mixer.music.play()
+def respond(query):
+    query = query.lower().strip()
+    # Math handling
+    result = try_math_compute(query)
+    if result is not None:
+        speak("The result is " + result)
+        return
 
-# keep the program alive until music finishes playing
-while pygame.mixer.music.get_busy():
-    pygame.time.Clock().tick(10)
+    # Other commands
+    if 'time' in query:
+        speak("The time is " + get_time())
+    elif query.startswith('who is') or query.startswith('what is'):
+        speak("Let me check.")
+        try:
+            info = wikipedia.summary(query, sentences=2)
+            speak(info)
+        except Exception:
+            speak("Sorry, I couldn't find information about that.")
+    elif 'open youtube' in query:
+        speak("Opening YouTube")
+        webbrowser.open("https://www.youtube.com")
+    elif 'open google' in query:
+        speak("Opening google")
+        webbrowser.open("https://www.google.com")
+    elif 'open chrome' in query:
+        speak("Opening chrome")
+        webbrowser.open("https://www.chrome.com")
+    elif 'open youtube' in query:
+        speak("Opening instagram")
+        webbrowser.open("https://www.instagram.com")
 
-    pygame.mixer.music.unload()
-    os.remove("temp.mp3")
-
-
-def aiprocess(command):
-    client = OpenAI(    
-   api_key="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",
-)
-
-    completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are virtual assistant named Jarvis, skilled in general tasks like Alexa and Google Cloud. Give short response please"},
-        {"role": "user",   "content": command}
-    ]
-)
-
-    return completion.choices[0].message.content
-
-def processCommand(c):
-    c = c.lower()
-    if "open instagram" in c:
-        webbrowser.open("https://instagram.com")
-    elif "open pinterest" in c:
-        webbrowser.open("https://pinterest.com")
-    elif "open youtube" in c:
-        webbrowser.open("https://youtube.com")
-    elif "open chrome" in c:
-        webbrowser.open("https://chrome.com")
-    elif c.startswith("play "):
-        song = c.split(" ", 1)[1]
-        link = musicLibrary.music.get(song)
-        if link:
-            webbrowser.open(link)
-        else:
-            speak(f"Song {song} not found")
-    elif "news" in c:
-        r = requests.get(f"https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey={newsapi}")
-        if r.status_code == 200:
-            data = r.json()
-            articles = data.get('articles', [])
-            for article in articles:
-                speak(article.get('title', ''))
-        else:
-            speak("Sorry, could not fetch news.")
+    elif query.strip() == "":
+        pass
+    
     else:
-        # Let openAI or something else handle
-        speak("Sorry, command not recognised.")
-        output = aiprocess(c)
-        speak(output)
+        speak("You said: " + query)
 
 if __name__ == "__main__":
-    speak("Initializing Jarvis...")
+    speak("Jarvis at your service. Say 'jarvis' to wake me up.")
     while True:
-        print("Listening for wake word...")
-        with sr.Microphone() as source:
-            recognizer.adjust_for_ambient_noise(source)
-            try:
-                audio = recognizer.listen(source, timeout=5, phrase_time_limit=3)
-                word = recognizer.recognize_google(audio)
-                print("You said:", word)
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                print("Speech Recognition service error")
-                continue
-            except sr.WaitTimeoutError:
-                continue
-
-        if word.lower() == "jarvis":
-            speak("Yes, how may I help you?")
-            with sr.Microphone() as source:
-                recognizer.adjust_for_ambient_noise(source)
-                try:
-                    audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
-                    command = recognizer.recognize_google(audio)
-                    print("Command:", command)
-                    processCommand(command)
-                except sr.UnknownValueError:
-                    speak("Sorry, I did not catch that.")
-                except sr.RequestError:
-                    speak("Sorry, speech service failed.")
+        text = listen()
+        if WAKE in text:
+            speak("Yes?")
+            command = listen()
+            if command:
+                respond(command)
+        if text and ("exit" in text or "quit" in text):
+            speak("Goodbye!")
+            break
