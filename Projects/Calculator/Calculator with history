@@ -1,0 +1,83 @@
+import os
+
+HISTORY_FILE = "history.txt"
+
+def load_history():
+    """Return list of past history lines, or empty list if none."""
+    if not os.path.exists(HISTORY_FILE):
+        return []
+    with open(HISTORY_FILE, 'r') as f:
+        return f.read().splitlines()
+
+def show_history():
+    history = load_history()
+    if not history:
+        print("No history found.")
+    else:
+        for line in reversed(history):
+            print(line)
+
+def clear_history():
+    # Overwrite/clear the history file
+    with open(HISTORY_FILE, 'w') as f:
+        pass
+    print("History cleared.")
+
+def save_history(equation, result):
+    with open(HISTORY_FILE, 'a') as f:
+        f.write(f"{equation} = {result}\n")
+
+def perform_calculation(user_input):
+    parts = user_input.split()
+    if len(parts) != 3:
+        print("Invalid input. Use format: number operator number (e.g. 8 + 8)")
+        return
+
+    a_str, op, b_str = parts
+    try:
+        num1 = float(a_str)
+        num2 = float(b_str)
+    except ValueError:
+        print("Invalid numbers. Please enter valid numeric values.")
+        return
+
+    if op == '+':
+        res = num1 + num2
+    elif op == '-':
+        res = num1 - num2
+    elif op == '*':
+        res = num1 * num2
+    elif op == '/':
+        if num2 == 0:
+            print("Cannot divide by 0.")
+            return
+        res = num1 / num2
+    else:
+        print("Invalid operator. Use only +, -, *, /")
+        return
+
+    # if result is an integer value like 5.0 → show as 5
+    if res == int(res):
+        res = int(res)
+
+    print("Result:", res)
+    save_history(user_input, res)
+
+def main():
+    print("--- SIMPLE CALCULATOR ---")
+    print("You can also type commands: history, clear, exit")
+    while True:
+        inp = input("Enter calculation (e.g. 4 * 5) or command: ").strip()
+        cmd = inp.lower()
+        if cmd == 'exit':
+            print("Goodbye!")
+            break
+        elif cmd == 'history':
+            show_history()
+        elif cmd == 'clear':
+            clear_history()
+        else:
+            perform_calculation(inp)
+
+if __name__ == '__main__':
+    main()
