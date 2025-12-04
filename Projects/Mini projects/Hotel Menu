@@ -1,0 +1,33 @@
+menu = {
+    'Pizza': 40,
+    'Burger': 60,
+    'Momos': 40,
+    'Fried Rice': 55,
+    'Schezwan Rice': 60,
+    'Coffee': 50,
+    'Smoodh': 10,
+    'Masala Dosa': 40,
+    'Dosa': 25,
+    'Soda': 10
+}
+
+print("Welcome to UMAR Restaurant")
+print("Here is the menu:")
+for item, price in menu.items():
+    print(f"{item}: {price}")
+
+order_total = 0
+
+while True:
+    item = input("Enter the name of the item you want to order: ")
+    if item in menu:
+        order_total += menu[item]
+        print(f"Your item {item} has been added to your order (₹{menu[item]}).")
+    else:
+        print(f"Ordered item '{item}' is not available.")
+
+    another = input("Do you want to order something else? (yes/no): ").lower()
+    if another != 'yes':
+        break
+
+print(f"THANKYOU! Your total amount to pay is ₹{order_total}")
