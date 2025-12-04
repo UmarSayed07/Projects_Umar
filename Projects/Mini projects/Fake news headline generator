@@ -1,0 +1,52 @@
+import random
+
+SUBJECTS = [
+    "A stray dog",
+    "An old school teacher",
+    "A street magician",
+    "A Mumbai taxi driver",
+    "A group of college students",
+    "An alien visitor",
+    "A lost tourist",
+    "A tech startup founder"
+]
+
+ACTIONS = [
+    "finds",
+    "steals",
+    "discovers",
+    "loses",
+    "challenges",
+    "rescues",
+    "transforms",
+    "paints"
+]
+
+LOCATIONS = [
+    "at Marine Drive",
+    "inside a haunted house",
+    "on a crowded train",
+    "under the full moon",
+    "during monsoon rains",
+    "in a secret tunnel",
+    "at Mumbai’s famous street food stall",
+    "on the rooftop of a skyscraper"
+]
+
+def generate_headline():
+    subject = random.choice(SUBJECTS)
+    action = random.choice(ACTIONS)
+    place = random.choice(LOCATIONS)
+    return f"BREAKING NEWS: {subject} {action} {place}"
+
+def main():
+    print("Fake-News Headline Generator")
+    while True:
+        print("\n" + generate_headline())
+        again = input("Do you want another headline? (yes / no): ").strip().lower()
+        if again == 'no':
+            break
+    print("\nThanks for using the headline generator. Goodbye!")
+
+if __name__ == "__main__":
+    main()
