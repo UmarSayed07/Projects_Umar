@@ -1,7 +1,6 @@
 import arcade
 import random
 
-# ---------------- CONSTANTS ----------------
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Ultimate Space Shooter PRO"
@@ -20,7 +19,6 @@ POWERUP_SIZE = 20
 EXPLOSION_DURATION = 15
 MAX_ESCAPED_ENEMIES = 5
 
-# ---------------- STAR BACKGROUND ----------------
 class Star:
     def __init__(self):
         self.x = random.randint(0, SCREEN_WIDTH)
@@ -39,7 +37,6 @@ class Star:
     def draw(self):
         arcade.draw_circle_filled(self.x, self.y, self.size, self.color)
 
-# ---------------- PLAYER ----------------
 class Player:
     def __init__(self):
         self.center_x = SCREEN_WIDTH // 2
@@ -69,7 +66,6 @@ class Player:
             arcade.color.CYAN
         )
 
-# ---------------- BULLET ----------------
 class Bullet(arcade.SpriteSolidColor):
     def __init__(self, x, y):
         super().__init__(BULLET_WIDTH, BULLET_HEIGHT, arcade.color.YELLOW)
@@ -81,7 +77,6 @@ class Bullet(arcade.SpriteSolidColor):
         if self.bottom > SCREEN_HEIGHT:
             self.remove_from_sprite_lists()
 
-# ---------------- ENEMY ----------------
 class Enemy:
     def __init__(self, x, y, color, speed, zigzag=False):
         self.center_x = x
@@ -109,7 +104,6 @@ class Enemy:
         arcade.draw_circle_filled(self.center_x - self.width//4, self.center_y, 5, arcade.color.RED)
         arcade.draw_circle_filled(self.center_x + self.width//4, self.center_y, 5, arcade.color.RED)
 
-# ---------------- POWERUP ----------------
 class PowerUp(arcade.SpriteSolidColor):
     def __init__(self, x, y, kind="triple"):
         super().__init__(POWERUP_SIZE, POWERUP_SIZE, arcade.color.GREEN)
@@ -122,7 +116,6 @@ class PowerUp(arcade.SpriteSolidColor):
         if self.top < 0:
             self.remove_from_sprite_lists()
 
-# ---------------- EXPLOSION ----------------
 class Explosion(arcade.SpriteSolidColor):
     def __init__(self, x, y, size):
         super().__init__(size, size, arcade.color.ORANGE)
@@ -136,7 +129,6 @@ class Explosion(arcade.SpriteSolidColor):
         if self.timer <= 0:
             self.remove_from_sprite_lists()
 
-# ---------------- GAME WINDOW ----------------
 class SpaceShooterPro(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
@@ -184,11 +176,9 @@ class SpaceShooterPro(arcade.Window):
                              arcade.color.YELLOW, 24, anchor_x="center")
             return
 
-        # Stars
         for star in self.stars:
             star.draw()
 
-        # Sprites
         self.player.draw()
         for enemy in self.enemy_list:
             enemy.draw()
@@ -196,7 +186,7 @@ class SpaceShooterPro(arcade.Window):
         self.powerup_list.draw()
         self.explosion_list.draw()
 
-        # UI panel
+        # UI 
         arcade.draw_lrbt_rectangle_filled(
     left=0,
     right=SCREEN_WIDTH,
@@ -209,7 +199,6 @@ class SpaceShooterPro(arcade.Window):
         arcade.draw_text(f"Level: {self.level}", SCREEN_WIDTH - 120, SCREEN_HEIGHT - 30, arcade.color.YELLOW, 18)
         arcade.draw_text(f"Escaped: {self.escaped_enemies}/{MAX_ESCAPED_ENEMIES}", SCREEN_WIDTH - 250, SCREEN_HEIGHT - 30, arcade.color.RED, 18)
 
-        # Lives UI
         for i in range(self.player.lives):
             x = 20 + i*50
             y = SCREEN_HEIGHT - 60
@@ -294,8 +283,7 @@ class SpaceShooterPro(arcade.Window):
                 self.powerup_list.remove(powerup)
                 if powerup.kind == "triple":
                     self.player.powerup_triple = True
-
-        # Level up
+# LEVEL UP
         if self.player.score // 500 > self.level - 1:
             self.level += 1
 
@@ -321,7 +309,6 @@ class SpaceShooterPro(arcade.Window):
         else:
             self.bullet_list.append(Bullet(self.player.center_x, self.player.center_y + PLAYER_SIZE//2))
 
-# ---------------- MAIN ----------------
 def main():
     window = SpaceShooterPro()
     window.setup()
