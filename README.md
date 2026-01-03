@@ -7,7 +7,21 @@
 ## 🧠 About This Repository
 This repository showcases my beginner-to-intermediate Python projects.  
 I’m currently learning how to build small utilities, games, and tools to strengthen my logic and programming fundamentals.  
-Each project here is a step toward mastering Python for real-world applications.  
+Each project here is a step toward mastering Python for real-world applications.
+
+## 💼 Need Help With Python?
+
+I can help with:
+- Small Python scripts
+- Password generators
+- File automation
+- Beginner projects
+- Bug fixing & logic help
+
+If you need a custom script or help understanding code,
+open an Issue in this repository and describe your problem.
+
+Paid help available (UPI).
 
 ---
 
