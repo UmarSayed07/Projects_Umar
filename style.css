@@ -62,17 +62,16 @@ body {
 .logo {
     font-size: 1.4rem;
     font-weight: 800;
-    letter-spacing: -0.5px; /* Subtle tightening, but not enough to touch */
+    letter-spacing: -0.5px;
     color: var(--text);
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    gap: 6px; /* This ensures there is a gap even if the space character is small */
+    gap: 6px;
 }
 
 .logo span {
     color: var(--accent);
-    /* Remove any margin-left: -1px; if it's still there */
     margin-left: 0; 
     filter: drop-shadow(0 0 10px var(--accent-glow));
 }
@@ -130,14 +129,8 @@ body {
 
 .gradient-text {
     background: linear-gradient(90deg, #9d50ff, #3d8bff);
-    
-    /* The standard property */
     background-clip: text;
-    
-    /* The vendor-specific property (required for Chrome/Safari support) */
     -webkit-background-clip: text;
-    
-    /* Always pair with transparent text for the effect to work */
     -webkit-text-fill-color: transparent;
 }
 
@@ -238,6 +231,47 @@ body {
 .project-info { margin-top: 24px; }
 .project-info h4 { font-size: 1.5rem; margin-bottom: 5px; }
 .project-info p { color: var(--text-dim); }
+
+/* --- THUMBNAIL SPECIFIC STYLES --- */
+.thumbnail-grid img {
+  width: 100%;
+  height: auto;
+  transform: scale(0.9); /* 👈 zooms out */
+  transition: transform 0.3s ease;
+}
+
+.thumb-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: 0.4s ease;
+    aspect-ratio: 16/9;
+}
+
+.thumb-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+.thumb-card:hover img { transform: scale(1.05); }
+.thumb-card:hover { border-color: var(--accent); }
+
+.thumb-tag {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
 
 /* --- Skills & About --- */
 .h2-title { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
